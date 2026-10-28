@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.0.0](https://github.com/odinokland/mc-runtime-test-mod/compare/5.0.1...6.0.0) (2026-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **release:** Initial release ([#3](https://github.com/odinokland/mc-runtime-test-mod/issues/3))
+
+### Features
+
+* allow registering fresh tests and spawn new structures ([d20e8da](https://github.com/odinokland/mc-runtime-test-mod/commit/d20e8daed4c0776d67238cde20af1e6ce2972f3a))
+* automatically bypass experimental settings screen ([c2ce97f](https://github.com/odinokland/mc-runtime-test-mod/commit/c2ce97f73b0c5a7af7edb67e33ce592e57326351))
+* enabled game tests for forge and neoforge ([d4d79b5](https://github.com/odinokland/mc-runtime-test-mod/commit/d4d79b57f4972a0d280dc8ac2ca3ac7a57e23311))
+* **release:** Initial release ([#3](https://github.com/odinokland/mc-runtime-test-mod/issues/3)) ([7e39a37](https://github.com/odinokland/mc-runtime-test-mod/commit/7e39a37fd18766cba4b1b88a6ba1b67d6f9d1d26))
+
+
+### Bug Fixes
+
+* exclude default minecraft test from test runner ([017fdb7](https://github.com/odinokland/mc-runtime-test-mod/commit/017fdb7722990a0e6489c47d3b0d8be9bd253bce))
+* **mod:** fix datapack screens, game tests ([#6](https://github.com/odinokland/mc-runtime-test-mod/issues/6)) ([538293b](https://github.com/odinokland/mc-runtime-test-mod/commit/538293bb07e835d3ff2d97affa2cd03aa3712741))
+* **release:** fix forge being released as neoforge mod ([eec656f](https://github.com/odinokland/mc-runtime-test-mod/commit/eec656f1265935c9c794fe658f41d8e64ae4c4f8))
+
 ## [5.0.1](https://github.com/headlesshq/mc-runtime-test-mod/compare/5.0.0...5.0.1) (2026-10-12)
 
 
