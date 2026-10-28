@@ -103,7 +103,10 @@ public class McGameTestRunner {
     private static Collection<Holder.Reference<GameTestInstance>> getTestFunctions(CommandContext<CommandSourceStack> ctx, MinecraftServer server) {
         var registryList = server.registryAccess().lookupOrThrow(Registries.TEST_INSTANCE);
         if (McRuntimeTest.RUN_ALL_REGISTERED_TESTS) {
-            return registryList.listElements().filter(test -> !test.value().manualOnly()).toList();
+            return registryList.listElements().filter(
+                    test -> !test.value().manualOnly()
+                            && !test.key().identifier().toString().equals("minecraft:always_pass")
+            ).toList();
         }
         String instance = System.getProperty("McRuntimeGameTestInstance");
         // Named tests can run in a fresh world without preplaced test
