@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.1.0](https://github.com/odinokland/mc-runtime-test-mod/compare/6.0.0...6.1.0) (2026-10-30)
+
+
+### Features
+
+* add namespaces option and fix neoforge registration on later ve… ([3055250](https://github.com/odinokland/mc-runtime-test-mod/commit/3055250eb7f875f3589910c42aa6b5ccf01a12f2))
+* add namespaces option and fix neoforge registration on later versions ([4bee333](https://github.com/odinokland/mc-runtime-test-mod/commit/4bee3336f51ea6cd60cd64442d8dd0bfe936de4d))
+
+
+### Bug Fixes
+
+* **ci:** add missing imports to 1.21.11 ([6a8c2e7](https://github.com/odinokland/mc-runtime-test-mod/commit/6a8c2e7b685462b74cc316d931972d914fc2ab54))
+
 ## [6.0.0](https://github.com/odinokland/mc-runtime-test-mod/compare/5.0.1...6.0.0) (2026-10-28)
 
 
