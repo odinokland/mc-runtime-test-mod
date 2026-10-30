@@ -2,11 +2,13 @@ package me.earth.mc_runtime_test;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ResourceSelectorArgument;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.*;
@@ -102,11 +104,12 @@ public class McGameTestRunner {
 
     private static Collection<Holder.Reference<GameTestInstance>> getTestFunctions(CommandContext<CommandSourceStack> ctx, MinecraftServer server) {
         var registryList = server.registryAccess().lookupOrThrow(Registries.TEST_INSTANCE);
-        if (McRuntimeTest.RUN_ALL_REGISTERED_TESTS) {
-            return registryList.listElements().filter(
-                    test -> !test.value().manualOnly()
-                            && !test.key().identifier().toString().equals("minecraft:always_pass")
-            ).toList();
+        if (McRuntimeTest.GAME_TEST_NAMESPACES != null && !McRuntimeTest.GAME_TEST_NAMESPACES.isEmpty()) {
+            List<Holder.Reference<GameTestInstance>> tests = new ArrayList<>();
+            Arrays.stream(McRuntimeTest.GAME_TEST_NAMESPACES.split(",")).forEach(namespace -> {
+                tests.addAll(ResourceSelectorArgument.parse(new StringReader(namespace + ":*"), registryList).stream().toList());
+            });
+            return tests;
         }
         String instance = System.getProperty("McRuntimeGameTestInstance");
         // Named tests can run in a fresh world without preplaced test

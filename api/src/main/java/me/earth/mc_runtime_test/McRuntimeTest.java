@@ -14,9 +14,9 @@ public class McRuntimeTest {
      */
     public static final boolean GAME_TESTS_FAIL_ON_OPTIONAL = Boolean.parseBoolean(System.getProperty("McRuntimeGameTestFailOnOptional", "true"));
     /**
-     * Whether to run all registered tests in a fresh world.
+     * Game test namespaces to search for tests in. (Comma separated)
      */
-    public static final boolean RUN_ALL_REGISTERED_TESTS = Boolean.parseBoolean(System.getProperty("McRuntimeGameTestRunAllRegisteredTests", "true"));
+    public static final String GAME_TEST_NAMESPACES = System.getProperty("McRuntimeGameTestNamespaces");
     /**
      * Fails if less game tests than this get found.
      */
@@ -34,7 +34,7 @@ public class McRuntimeTest {
      */
     public static final boolean CLOSE_ANY_SCREEN = Boolean.parseBoolean(System.getProperty("McRuntimeGameTestCloseAnyScreen", "false"));
 
-    public static final boolean SPAWN_STRUCTURES = System.getProperty("McRuntimeGameTestInstance") != null || RUN_ALL_REGISTERED_TESTS;
+    public static final boolean SPAWN_STRUCTURES = System.getProperty("McRuntimeGameTestInstance") != null || (GAME_TEST_NAMESPACES != null && !GAME_TEST_NAMESPACES.isEmpty());
 
     /**
      * Our Hook in Minecrafts setScreen/displayGuiScreen.

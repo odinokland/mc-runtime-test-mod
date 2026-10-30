@@ -2,11 +2,13 @@ package me.earth.mc_runtime_test;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ResourceSelectorArgument;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.*;
@@ -16,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Rotation;
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -72,7 +75,6 @@ public class McGameTestRunner {
                             player.blockPosition().offset(0, 4, 8), 1, false));
                 }
                 GameTestRunner gameTestRunner = builder.build();
-                gameTestRunner.start();
 
                 MultipleTestTracker multipleTestTracker = new MultipleTestTracker(gameTestRunner.getTestInfos());
                 multipleTestTracker.addFailureListener(gameTestInfo -> {
@@ -85,6 +87,8 @@ public class McGameTestRunner {
                         System.exit(-1);
                     }
                 });
+
+                gameTestRunner.start();
 
                 result.set(Optional.of(multipleTestTracker));
                 return Command.SINGLE_SUCCESS;
@@ -102,11 +106,12 @@ public class McGameTestRunner {
 
     private static Collection<Holder.Reference<GameTestInstance>> getTestFunctions(CommandContext<CommandSourceStack> ctx, MinecraftServer server) {
         var registryList = server.registryAccess().lookupOrThrow(Registries.TEST_INSTANCE);
-        if (McRuntimeTest.RUN_ALL_REGISTERED_TESTS) {
-            return registryList.listElements().filter(
-                    test -> !test.value().manualOnly()
-                            && !test.key().identifier().toString().equals("minecraft:always_pass")
-            ).toList();
+        if (McRuntimeTest.GAME_TEST_NAMESPACES != null && !McRuntimeTest.GAME_TEST_NAMESPACES.isEmpty()) {
+            List<Holder.Reference<GameTestInstance>> tests = new ArrayList<>();
+            Arrays.stream(McRuntimeTest.GAME_TEST_NAMESPACES.split(",")).forEach(namespace -> {
+                tests.addAll(ResourceSelectorArgument.parse(new StringReader(namespace + ":*"), registryList).stream().toList());
+            });
+            return tests;
         }
         String instance = System.getProperty("McRuntimeGameTestInstance");
         // Named tests can run in a fresh world without preplaced test

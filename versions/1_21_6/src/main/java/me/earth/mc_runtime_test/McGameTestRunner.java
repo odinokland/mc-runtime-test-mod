@@ -102,7 +102,7 @@ public class McGameTestRunner {
 
     private static Collection<Holder.Reference<GameTestInstance>> getTestFunctions(CommandContext<CommandSourceStack> ctx, ServerLevel server) {
         var registryList = server.registryAccess().lookupOrThrow(Registries.TEST_INSTANCE);
-        if (McRuntimeTest.RUN_ALL_REGISTERED_TESTS) {
+        if (McRuntimeTest.GAME_TEST_NAMESPACES != null && !McRuntimeTest.GAME_TEST_NAMESPACES.isEmpty()) {
             return registryList.listElements().filter(
                     test -> !test.value().manualOnly()
                             && !test.key().location().toString().equals("minecraft:always_pass")
